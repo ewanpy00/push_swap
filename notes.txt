@@ -1,9 +1,0 @@
-using Turk sort for the large numbers
-
-learn how to calculate the complexity of the algorithm
-
-Read about Turk sort
-
-or try to optimise the 
-
-make an efficient indexation first
