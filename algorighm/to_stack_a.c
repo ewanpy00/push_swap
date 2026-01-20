@@ -37,48 +37,57 @@ int get_min_index_pos(t_stack *a)
     return min_pos;
 }
 
+static int find_best_position(t_stack *a, int b_index, int *best_pos)
+{
+    t_stack *current_a = a;
+    int target_pos = 0;
+    int found = 0;
+    int best_index = INT_MAX;
+
+    while (current_a)
+    {
+        if (current_a->index > b_index && current_a->index < best_index)
+        {
+            best_index = current_a->index;
+            *best_pos = target_pos;
+            found = 1;
+        }
+        target_pos++;
+        current_a = current_a->next;
+    }
+    return (found);
+}
+
+static void set_target_for_node(t_stack *a, t_stack *b_node, int size_a)
+{
+    int best_pos;
+    int min_pos;
+
+    if (find_best_position(a, b_node->index, &best_pos))
+    {
+        if (best_pos <= size_a / 2)
+            b_node->target_pos = best_pos;
+        else
+            b_node->target_pos = best_pos - size_a;
+    }
+    else
+    {
+        min_pos = get_min_index_pos(a);
+        if (min_pos <= size_a / 2)
+            b_node->target_pos = min_pos;
+        else
+            b_node->target_pos = min_pos - size_a;
+    }
+}
+
 void set_target_pos(t_stack *a, t_stack *b)
 {
     t_stack *current_b = b;
-    t_stack *current_a;
     int size_a = stack_size(a);
 
     while (current_b)
     {
-        current_a = a;
-        int target_pos = 0;
-        int found = 0;
-        int best_index = INT_MAX;
-        int best_pos = 0;
-
-        while (current_a)
-        {
-            if (current_a->index > current_b->index && current_a->index < best_index)
-            {
-                best_index = current_a->index;
-                best_pos = target_pos;
-                found = 1;
-            }
-            target_pos++;
-            current_a = current_a->next;
-        }
-
-        if (found)
-        {
-            if (best_pos <= size_a / 2)
-                current_b->target_pos = best_pos;
-            else
-                current_b->target_pos = best_pos - size_a;
-        }
-        else
-        {
-            int min_pos = get_min_index_pos(a);
-            if (min_pos <= size_a / 2)
-                current_b->target_pos = min_pos;
-            else
-                current_b->target_pos = min_pos - size_a;
-        }
-
+        set_target_for_node(a, current_b, size_a);
         current_b = current_b->next;
     }
 }
@@ -146,43 +155,59 @@ t_stack *get_cheapest(t_stack *b)
     return cheapest;
 }
 
+static void execute_simultaneous_rotations(t_stack **a, t_stack **b,
+                                          int *cost_a, int *cost_b)
+{
+    while (*cost_a > 0 && *cost_b > 0)
+    {
+        rr(a, b);
+        (*cost_a)--;
+        (*cost_b)--;
+    }
+    while (*cost_a < 0 && *cost_b < 0)
+    {
+        rrr(a, b);
+        (*cost_a)++;
+        (*cost_b)++;
+    }
+}
+
+static void execute_remaining_rotations_a(t_stack **a, int *cost_a)
+{
+    while (*cost_a > 0)
+    {
+        ra(a);
+        (*cost_a)--;
+    }
+    while (*cost_a < 0)
+    {
+        rra(a);
+        (*cost_a)++;
+    }
+}
+
+static void execute_remaining_rotations_b(t_stack **b, int *cost_b)
+{
+    while (*cost_b > 0)
+    {
+        rb(b);
+        (*cost_b)--;
+    }
+    while (*cost_b < 0)
+    {
+        rrb(b);
+        (*cost_b)++;
+    }
+}
+
 void execute_move(t_stack **a, t_stack **b, t_stack *cheapest)
 {
     int cost_a = cheapest->cost_a;
     int cost_b = cheapest->cost_b;
 
-    while (cost_a > 0 && cost_b > 0)
-    {
-        rr(a, b);
-        cost_a--;
-        cost_b--;
-    }
-    while (cost_a < 0 && cost_b < 0)
-    {
-        rrr(a, b);
-        cost_a++;
-        cost_b++;
-    }
-    while (cost_a > 0)
-    {
-        ra(a);
-        cost_a--;
-    }
-    while (cost_a < 0)
-    {
-        rra(a);
-        cost_a++;
-    }
-    while (cost_b > 0)
-    {
-        rb(b);
-        cost_b--;
-    }
-    while (cost_b < 0)
-    {
-        rrb(b);
-        cost_b++;
-    }
+    execute_simultaneous_rotations(a, b, &cost_a, &cost_b);
+    execute_remaining_rotations_a(a, &cost_a);
+    execute_remaining_rotations_b(b, &cost_b);
 }
 
 void final_rotate(t_stack **a)

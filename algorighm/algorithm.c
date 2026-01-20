@@ -1,135 +1,147 @@
 #include "push_swap.h"
 
-int stack_size(t_stack *a)
+int	stack_size(t_stack *a)
 {
-    int i = 0;
-    while (a)
-    {
-        i++;
-        a = a->next;
-    }
-    return i;
+	int	i;
+
+	i = 0;
+	while (a)
+	{
+		i++;
+		a = a->next;
+	}
+	return (i);
 }
 
-int in_chunk(t_stack *node, t_chunk *chunk)
+int	in_chunk(t_stack *node, t_chunk *chunk)
 {
-    if (chunk->chunk_counter == chunk->chunk_amount)
-        return (node->index >= (chunk->chunk_counter - 1)
-                * chunk->chunk_length);
-    return (node->index >= (chunk->chunk_counter - 1)
-            * chunk->chunk_length
-            && node->index < chunk->chunk_counter
-            * chunk->chunk_length);
+	if (chunk->chunk_counter == chunk->chunk_amount)
+		return (node->index >= (chunk->chunk_counter - 1)
+			* chunk->chunk_length);
+	return (node->index >= (chunk->chunk_counter - 1) * chunk->chunk_length
+		&& node->index < chunk->chunk_counter * chunk->chunk_length);
 }
 
-int chunk_in_stack(t_stack *a, t_chunk *chunk)
+int	chunk_in_stack(t_stack *a, t_chunk *chunk)
 {
-    while (a)
-    {
-        if (in_chunk(a, chunk))
-            return 1;
-        a = a->next;
-    }
-    return 0;
+	while (a)
+	{
+		if (in_chunk(a, chunk))
+			return (1);
+		a = a->next;
+	}
+	return (0);
 }
 
-void set_indexes(t_stack **stack_a)
+void	set_indexes(t_stack **stack_a)
 {
-    t_stack *current;
-    t_stack *runner;
-    int index;
+	t_stack	*current;
+	t_stack	*runner;
+	int		index;
 
-    current = *stack_a;
-    while (current)
-    {
-        index = 0;
-        runner = *stack_a;
-        while (runner)
-        {
-            if (runner->value < current->value)
-                index++;
-            runner = runner->next;
-        }
-        current->index = index;
-        current = current->next;
-    }
+	current = *stack_a;
+	while (current)
+	{
+		index = 0;
+		runner = *stack_a;
+		while (runner)
+		{
+			if (runner->value < current->value)
+				index++;
+			runner = runner->next;
+		}
+		current->index = index;
+		current = current->next;
+	}
 }
 
-t_stack *find_closest_in_chunk(t_stack *a, t_chunk *chunk)
+t_stack	*find_closest_in_chunk(t_stack *a, t_chunk *chunk)
 {
-    int i = 0;
-    int size = stack_size(a);
-    t_stack *tmp = a;
+	int		i;
+	int		size;
+	t_stack	*tmp;
 
-    while (tmp)
-    {
-        if (in_chunk(tmp, chunk))
-        {
-            if (i <= size / 2)
-                tmp->pos = i;
-            else
-                tmp->pos = i - size;
-            return tmp;
-        }
-        tmp = tmp->next;
-        i++;
-    }
-    return NULL;
+	i = 0;
+	size = stack_size(a);
+	tmp = a;
+	while (tmp)
+	{
+		if (in_chunk(tmp, chunk))
+		{
+			if (i <= size / 2)
+				tmp->pos = i;
+			else
+				tmp->pos = i - size;
+			return (tmp);
+		}
+		tmp = tmp->next;
+		i++;
+	}
+	return (NULL);
 }
 
-void setup(t_stack **a, int total_size, t_chunk *chunk)
+void	setup(t_stack **a, int total_size, t_chunk *chunk)
 {
-    if (total_size <= 20)
-        chunk->chunk_amount = 2;
-    else if (total_size <= 100)
-        chunk->chunk_amount = 5;
-    else if (total_size <= 500)
-        chunk->chunk_amount = 10;
-    else
-        chunk->chunk_amount = 20;
-
-    chunk->chunk_length = total_size / chunk->chunk_amount;
-    chunk->chunk_counter = 1;
-
-    set_indexes(a);
+	if (total_size <= 20)
+		chunk->chunk_amount = 2;
+	else if (total_size <= 100)
+		chunk->chunk_amount = 5;
+	else if (total_size <= 500)
+		chunk->chunk_amount = 10;
+	else
+		chunk->chunk_amount = 20;
+	chunk->chunk_length = total_size / chunk->chunk_amount;
+	chunk->chunk_counter = 1;
+	set_indexes(a);
 }
 
-void push_to_b(t_stack **a, t_stack **b, t_chunk *chunk)
+static void	rotate_to_target(t_stack **a, t_stack *target)
 {
-    t_stack *target;
-    int moved;
+	while (target->pos > 0)
+	{
+		ra(a);
+		target->pos--;
+	}
+	while (target->pos < 0)
+	{
+		rra(a);
+		target->pos++;
+	}
+}
 
-    while (chunk->chunk_counter <= chunk->chunk_amount)
-    {
-        moved = 0;
+static int	should_rotate_b(t_stack *b, t_chunk *chunk, int moved)
+{
+	return ((b->index < (chunk->chunk_counter * chunk->chunk_length
+				- chunk->chunk_length / 2)) && (moved <= chunk->chunk_length
+			/ 2));
+}
 
-        while (chunk_in_stack(*a, chunk))
-        {
-            target = find_closest_in_chunk(*a, chunk);
-            if (!target)
-                break;
+static void	process_chunk(t_stack **a, t_stack **b, t_chunk *chunk)
+{
+	t_stack	*target;
+	int		moved;
 
-            while (target->pos > 0)
-            {
-                ra(a);
-                target->pos--;
-            }
-            while (target->pos < 0)
-            {
-                rra(a);
-                target->pos++;
-            }
+	moved = 0;
+	while (chunk_in_stack(*a, chunk))
+	{
+		target = find_closest_in_chunk(*a, chunk);
+		if (!target)
+			break ;
+		rotate_to_target(a, target);
+		pb(a, b);
+		moved++;
+		if (should_rotate_b(*b, chunk, moved))
+			rb(b);
+	}
+}
 
-            pb(a, b);
-            moved++;
-
-            if ((*b)->index < (chunk->chunk_counter * chunk->chunk_length
-                               - chunk->chunk_length / 2)
-                && (moved <= chunk->chunk_length / 2))
-                rb(b);
-        }
-        chunk->chunk_counter++;
-    }
+void	push_to_b(t_stack **a, t_stack **b, t_chunk *chunk)
+{
+	while (chunk->chunk_counter <= chunk->chunk_amount)
+	{
+		process_chunk(a, b, chunk);
+		chunk->chunk_counter++;
+	}
 }
 
 // void print_stack(char *name, t_stack *s)
@@ -138,7 +150,7 @@ void push_to_b(t_stack **a, t_stack **b, t_chunk *chunk)
 //     if (!s)
 //     {
 //         printf("(empty)\n");
-//         return;
+//         return ;
 //     }
 //     while (s)
 //     {
@@ -226,7 +238,5 @@ void push_to_b(t_stack **a, t_stack **b, t_chunk *chunk)
 //     free_stack(&a);
 //     free_stack(&b);
 
-//     return 0;
+//     return (0);
 // }
-
-
