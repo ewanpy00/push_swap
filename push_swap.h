@@ -39,7 +39,7 @@ void    rra(t_stack **a);
 void    rrb(t_stack **b);
 void    rrr(t_stack **a, t_stack **b);
 
-int stack_size(t_stack *a);
+int  stack_size(t_stack *a);
 void set_indexes(t_stack **stack_a);
 void setup(t_stack **a, int total_size, t_chunk *chunk);
 void push_to_b(t_stack **a, t_stack **b, t_chunk *chunk);
