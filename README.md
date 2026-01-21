@@ -7,5 +7,6 @@ Instructions:
 
 Rescources:
 
-ChatGPT - research on algorithmes
+    ChatGPT - research on algorithmes
+    42 push_swap subject
           
