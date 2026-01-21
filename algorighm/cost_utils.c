@@ -6,12 +6,13 @@
 /*   By: ipykhtin <ipykhtin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 16:22:17 by ipykhtin          #+#    #+#             */
-/*   Updated: 2026/01/21 16:24:22 by ipykhtin         ###   ########.fr       */
+/*   Updated: 2026/01/21 16:54:51 by ipykhtin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 void	set_costs(t_stack *b)
 {
@@ -41,14 +42,23 @@ int	calculate_total_cost(int cost_a, int cost_b)
 	if ((cost_a > 0 && cost_b > 0) || (cost_a < 0 && cost_b < 0))
 	{
 		if (cost_a > 0 && cost_b > 0)
-			total = (cost_a > cost_b) ? cost_a : cost_b;
+		{
+		    if (cost_a > cost_b)
+        		total = cost_a;
+    		else
+        		total = cost_b;
+		}
 		else
-			total = (abs(cost_a) > abs(cost_b)) ? abs(cost_a) : abs(cost_b);
+		{
+    	if (abs(cost_a) > abs(cost_b))
+        	total = abs(cost_a);
+    	else
+        	total = abs(cost_b);
+		}
 	}
 	else
-	{
 		total = abs(cost_a) + abs(cost_b);
-	}
+	printf("hi");
 	return (total);
 }
 

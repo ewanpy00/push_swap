@@ -6,7 +6,7 @@
 /*   By: ipykhtin <ipykhtin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 16:04:20 by ipykhtin          #+#    #+#             */
-/*   Updated: 2026/01/21 16:34:48 by ipykhtin         ###   ########.fr       */
+/*   Updated: 2026/01/21 16:50:10 by ipykhtin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,14 @@ static void	free_result_array(char **result, int j)
 	free(result);
 }
 
-static int	alloc_word(char **result, int j, int start, int end, char *str)
+static int	alloc_word(char **result, int *counter, int start, char *str)
 {
 	int	k;
+	int	j;
+	int	end;
 
+	j = counter[1];
+	end = counter[0];
 	result[j] = malloc(end - start + 1);
 	if (!result[j])
 	{
@@ -56,26 +60,25 @@ static int	extract_word(char *str, int *i, int *start)
 char	**split_arguments(char *str, int *count)
 {
 	char	**result;
-	int		i;
-	int		j;
 	int		start;
+	int		counter[2];
 
-	i = 0;
-	j = 0;
+	counter[0] = 0;
+	counter[1] = 0;
 	*count = count_words(str);
 	if (*count == 0)
 		return (NULL);
 	result = malloc(sizeof(char *) * (*count + 1));
 	if (!result)
 		return (NULL);
-	while (str[i] && j < *count)
+	while (str[counter[0]] && counter[1] < *count)
 	{
-		if (!extract_word(str, &i, &start))
+		if (!extract_word(str, &counter[0], &start))
 			break ;
-		if (!alloc_word(result, j, start, i, str))
+		if (!alloc_word(result, counter, start, str))
 			return (NULL);
-		j++;
+		counter[1]++;
 	}
-	result[j] = NULL;
+	result[counter[1]] = NULL;
 	return (result);
 }
