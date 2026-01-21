@@ -1,5 +1,5 @@
 NAME = push_swap
-CHECKER = checker_bin
+CHECKER = checker
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
@@ -24,7 +24,7 @@ SRCS = push_swap.c \
 	   algorighm/to_stack_a.c \
 	   algorighm/to_stack_a_helpers.c
 
-CHECKER_SRCS = checker/checker.c \
+CHECKER_SRCS = checker_push_swap/checker.c \
 	   utils/parse_helpers.c \
 	   utils/atoi_utils.c \
 	   utils/parse_utils.c \
