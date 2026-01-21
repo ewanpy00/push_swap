@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   reverse_rotate_ops.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ipykhtin <ipykhtin@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/21 16:22:00 by ipykhtin          #+#    #+#             */
+/*   Updated: 2026/01/21 16:24:50 by ipykhtin         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
 void	rra_no_write(t_stack **stack_a)
@@ -56,4 +68,3 @@ void	rrr(t_stack **stack_a, t_stack **stack_b)
 	rrb_no_write(stack_b);
 	write(1, "rrr\n", 4);
 }
-

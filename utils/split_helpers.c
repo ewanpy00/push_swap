@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   split_helpers.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ipykhtin <ipykhtin@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/21 16:04:20 by ipykhtin          #+#    #+#             */
+/*   Updated: 2026/01/21 16:34:48 by ipykhtin         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
 static void	free_result_array(char **result, int j)
@@ -48,14 +60,14 @@ char	**split_arguments(char *str, int *count)
 	int		j;
 	int		start;
 
+	i = 0;
+	j = 0;
 	*count = count_words(str);
 	if (*count == 0)
 		return (NULL);
 	result = malloc(sizeof(char *) * (*count + 1));
 	if (!result)
 		return (NULL);
-	i = 0;
-	j = 0;
 	while (str[i] && j < *count)
 	{
 		if (!extract_word(str, &i, &start))
@@ -67,4 +79,3 @@ char	**split_arguments(char *str, int *count)
 	result[j] = NULL;
 	return (result);
 }
-

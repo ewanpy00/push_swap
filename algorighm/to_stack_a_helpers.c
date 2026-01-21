@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   to_stack_a_helpers.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ipykhtin <ipykhtin@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/21 16:22:11 by ipykhtin          #+#    #+#             */
+/*   Updated: 2026/01/21 16:24:33 by ipykhtin         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
 static void	execute_simultaneous_rotations(t_stack **a, t_stack **b,
@@ -56,4 +68,3 @@ void	execute_move(t_stack **a, t_stack **b, t_stack *cheapest)
 	execute_remaining_rotations_a(a, &cost_a);
 	execute_remaining_rotations_b(b, &cost_b);
 }
-

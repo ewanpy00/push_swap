@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   algorithm_helpers.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ipykhtin <ipykhtin@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/21 16:22:26 by ipykhtin          #+#    #+#             */
+/*   Updated: 2026/01/21 16:24:28 by ipykhtin         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
 static void	rotate_to_target(t_stack **a, t_stack *target)
@@ -48,4 +60,3 @@ void	push_to_b(t_stack **a, t_stack **b, t_chunk *chunk)
 		chunk->chunk_counter++;
 	}
 }
-

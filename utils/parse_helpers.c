@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_helpers.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ipykhtin <ipykhtin@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/21 16:21:48 by ipykhtin          #+#    #+#             */
+/*   Updated: 2026/01/21 16:25:08 by ipykhtin         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
 static int	parse_single_arg(char *arg, t_stack **a)
@@ -45,4 +57,3 @@ int	parse_input(int ac, char **av, t_stack **a)
 	}
 	return (1);
 }
-
