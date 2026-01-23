@@ -6,7 +6,7 @@
 /*   By: ipykhtin <ipykhtin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 16:22:20 by ipykhtin          #+#    #+#             */
-/*   Updated: 2026/01/21 16:24:25 by ipykhtin         ###   ########.fr       */
+/*   Updated: 2026/01/23 16:34:42 by ipykhtin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,14 @@ int	stack_size(t_stack *a)
 
 int	in_chunk(t_stack *node, t_chunk *chunk)
 {
+	int	upper_bound;
+	int	lower_bound;
+
+	upper_bound = chunk->chunk_counter * chunk->chunk_length;
+	lower_bound = (chunk->chunk_counter - 1) * chunk_length;
 	if (chunk->chunk_counter == chunk->chunk_amount)
-		return (node->index >= (chunk->chunk_counter - 1)
-			* chunk->chunk_length);
-	return (node->index >= (chunk->chunk_counter - 1) * chunk->chunk_length
-		&& node->index < chunk->chunk_counter * chunk->chunk_length);
+		return (node->index >= lower_bound);
+	return (node->index >= lower_bound && node->index < upper_bound);
 }
 
 int	chunk_in_stack(t_stack *a, t_chunk *chunk)
