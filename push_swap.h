@@ -61,6 +61,7 @@ void				push_to_a(t_stack **a, t_stack **b);
 int					ft_atoi(const char *str, int *error);
 int					has_duplicates(t_stack *a, int value);
 int					parse_arguments(int ac, char **av, t_stack **a);
+int					init_new_node(t_stack **a, int value);
 void				free_stack(t_stack **stack);
 int					is_sorted(t_stack *a);
 void				reverse_stack(t_stack **a);

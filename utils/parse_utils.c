@@ -33,7 +33,7 @@ static int	validate_value(int value, int error, t_stack **a)
 	return (1);
 }
 
-static int	init_new_node(t_stack **a, int value)
+int	init_new_node(t_stack **a, int value)
 {
 	t_stack	*new_node;
 

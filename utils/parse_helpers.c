@@ -16,6 +16,9 @@ static int	parse_single_arg(char *arg, t_stack **a)
 {
 	char	**args;
 	int		arg_count;
+	int		i;
+	int		value;
+	int		error;
 
 	args = split_arguments(arg, &arg_count);
 	if (!args || arg_count == 0)
@@ -23,11 +26,24 @@ static int	parse_single_arg(char *arg, t_stack **a)
 		write(2, "Error\n", 6);
 		return (0);
 	}
-	if (!parse_arguments(arg_count + 1, args, a))
+	i = 0;
+	while (i < arg_count)
 	{
-		free_split(args);
-		free_stack(a);
-		return (0);
+		value = ft_atoi(args[i], &error);
+		if (error || has_duplicates(*a, value))
+		{
+			write(2, "Error\n", 6);
+			free_split(args);
+			free_stack(a);
+			return (0);
+		}
+		if (!init_new_node(a, value))
+		{
+			free_split(args);
+			free_stack(a);
+			return (0);
+		}
+		i++;
 	}
 	free_split(args);
 	return (1);
