@@ -6,7 +6,7 @@
 /*   By: ivan <ivan@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 16:22:05 by ipykhtin          #+#    #+#             */
-/*   Updated: 2026/01/24 12:00:00 by ivan             ###   ########.fr       */
+/*   Updated: 2026/01/26 14:28:32 by ivan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,55 +23,57 @@ static char	*read_line(void)
 	line = malloc(5);
 	if (!line)
 		return (NULL);
-	while ((bytes_read = read(0, &buffer, 1)) > 0)
+	bytes_read = read(0, &buffer, 1);
+	while (bytes_read > 0 && buffer != '\n')
 	{
-		if (buffer == '\n')
-			break ;
 		if (len >= 4)
-		{
-			free(line);
-			return ((char *)-1);
-		}
-		line[len] = buffer;
-		len++;
+			return (free(line), (char *)-1);
+		line[len++] = buffer;
+		bytes_read = read(0, &buffer, 1);
 	}
 	if (bytes_read < 0 || (bytes_read == 0 && len == 0))
-	{
-		free(line);
-		return (NULL);
-	}
+		return (free(line), NULL);
 	line[len] = '\0';
 	return (line);
 }
 
-static int	execute_instruction(char *instruction, t_stack **a, t_stack **b)
+static int	execute_simple_ops(char *inst, t_stack **a, t_stack **b)
 {
-	if (!instruction)
-		return (0);
-	if (instruction[0] == 's' && instruction[1] == 'a' && instruction[2] == '\0')
+	if (inst[0] == 's' && inst[1] == 'a' && inst[2] == '\0')
 		sa_no_write(a);
-	else if (instruction[0] == 's' && instruction[1] == 'b' && instruction[2] == '\0')
+	else if (inst[0] == 's' && inst[1] == 'b' && inst[2] == '\0')
 		sb_no_write(b);
-	else if (instruction[0] == 's' && instruction[1] == 's' && instruction[2] == '\0')
+	else if (inst[0] == 's' && inst[1] == 's' && inst[2] == '\0')
 		ss_no_write(a, b);
-	else if (instruction[0] == 'p' && instruction[1] == 'a' && instruction[2] == '\0')
+	else if (inst[0] == 'p' && inst[1] == 'a' && inst[2] == '\0')
 		pa_no_write(a, b);
-	else if (instruction[0] == 'p' && instruction[1] == 'b' && instruction[2] == '\0')
+	else if (inst[0] == 'p' && inst[1] == 'b' && inst[2] == '\0')
 		pb_no_write(a, b);
-	else if (instruction[0] == 'r' && instruction[1] == 'a' && instruction[2] == '\0')
+	else if (inst[0] == 'r' && inst[1] == 'a' && inst[2] == '\0')
 		ra_no_write(a);
-	else if (instruction[0] == 'r' && instruction[1] == 'b' && instruction[2] == '\0')
+	else if (inst[0] == 'r' && inst[1] == 'b' && inst[2] == '\0')
 		rb_no_write(b);
-	else if (instruction[0] == 'r' && instruction[1] == 'r' && instruction[2] == '\0')
+	else if (inst[0] == 'r' && inst[1] == 'r' && inst[2] == '\0')
 		rr_no_write(a, b);
-	else if (instruction[0] == 'r' && instruction[1] == 'r' && instruction[2] == 'a'
-		&& instruction[3] == '\0')
+	else
+		return (0);
+	return (1);
+}
+
+static int	execute_instruction(char *inst, t_stack **a, t_stack **b)
+{
+	if (!inst)
+		return (0);
+	if (execute_simple_ops(inst, a, b))
+		return (1);
+	if (inst[0] == 'r' && inst[1] == 'r' && inst[2] == 'a'
+		&& inst[3] == '\0')
 		rra_no_write(a);
-	else if (instruction[0] == 'r' && instruction[1] == 'r' && instruction[2] == 'b'
-		&& instruction[3] == '\0')
+	else if (inst[0] == 'r' && inst[1] == 'r' && inst[2] == 'b'
+		&& inst[3] == '\0')
 		rrb_no_write(b);
-	else if (instruction[0] == 'r' && instruction[1] == 'r' && instruction[2] == 'r'
-		&& instruction[3] == '\0')
+	else if (inst[0] == 'r' && inst[1] == 'r' && inst[2] == 'r'
+		&& inst[3] == '\0')
 		rrr_no_write(a, b);
 	else
 		return (0);
@@ -104,14 +106,6 @@ static int	read_and_execute(t_stack **a, t_stack **b)
 	return (1);
 }
 
-static void	check_result(t_stack **a, t_stack **b)
-{
-	if (is_sorted(*a) && *b == NULL)
-		write(1, "OK\n", 3);
-	else
-		write(1, "KO\n", 3);
-}
-
 int	main(int ac, char **av)
 {
 	t_stack	*a;
@@ -125,13 +119,12 @@ int	main(int ac, char **av)
 		return (1);
 	reverse_stack(&a);
 	if (!read_and_execute(&a, &b))
-	{
-		free_stack(&a);
-		free_stack(&b);
-		write(2, "Error\n", 6);
-		return (1);
-	}
-	check_result(&a, &b);
+		return (free_stack(&a), free_stack(&b),
+			write(2, "Error\n", 6), 1);
+	if (is_sorted(a) && b == NULL)
+		write(1, "OK\n", 3);
+	else
+		write(1, "KO\n", 3);
 	free_stack(&a);
 	free_stack(&b);
 	return (0);
