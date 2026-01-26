@@ -6,11 +6,12 @@
 /*   By: ivan <ivan@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 16:21:28 by ipykhtin          #+#    #+#             */
-/*   Updated: 2026/01/24 11:04:19 by ivan             ###   ########.fr       */
+/*   Updated: 2026/01/26 11:57:47 by ivan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+#include <limits.h>
 
 static void	sort_three(t_stack **a)
 {

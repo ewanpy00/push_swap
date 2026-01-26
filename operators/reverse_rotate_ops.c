@@ -68,3 +68,9 @@ void	rrr(t_stack **stack_a, t_stack **stack_b)
 	rrb_no_write(stack_b);
 	write(1, "rrr\n", 4);
 }
+
+void	rrr_no_write(t_stack **stack_a, t_stack **stack_b)
+{
+	rra_no_write(stack_a);
+	rrb_no_write(stack_b);
+}

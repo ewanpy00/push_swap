@@ -81,6 +81,15 @@ void				execute_move(t_stack **a, t_stack **b, t_stack *cheapest);
 void				final_rotate(t_stack **a);
 void				rra_no_write(t_stack **stack_a);
 void				rrb_no_write(t_stack **stack_b);
+void				sa_no_write(t_stack **stack_a);
+void				sb_no_write(t_stack **stack_b);
+void				ss_no_write(t_stack **stack_a, t_stack **stack_b);
+void				pa_no_write(t_stack **stack_a, t_stack **stack_b);
+void				pb_no_write(t_stack **stack_a, t_stack **stack_b);
+void				ra_no_write(t_stack **stack_a);
+void				rb_no_write(t_stack **stack_b);
+void				rr_no_write(t_stack **stack_a, t_stack **stack_b);
+void				rrr_no_write(t_stack **stack_a, t_stack **stack_b);
 int					parse_input(int ac, char **av, t_stack **a);
 
 #endif
