@@ -13,9 +13,12 @@ SRCS = push_swap.c \
 	   utils/split_helpers.c \
 	   utils/stack_utils.c \
 	   operators/swap_ops.c \
+	   operators/swap_ops_no_write.c \
 	   operators/push_ops.c \
 	   operators/rotate_ops.c \
+	   operators/rotate_ops_no_write.c \
 	   operators/reverse_rotate_ops.c \
+	   operators/reverse_rotate_ops_no_write.c \
 	   algorighm/chunk_utils.c \
 	   algorighm/algorithm.c \
 	   algorighm/algorithm_helpers.c \
@@ -32,9 +35,12 @@ CHECKER_SRCS = checker_push_swap/checker.c \
 	   utils/split_helpers.c \
 	   utils/stack_utils.c \
 	   operators/swap_ops.c \
+	   operators/swap_ops_no_write.c \
 	   operators/push_ops.c \
 	   operators/rotate_ops.c \
+	   operators/rotate_ops_no_write.c \
 	   operators/reverse_rotate_ops.c \
+	   operators/reverse_rotate_ops_no_write.c \
 	   algorighm/chunk_utils.c \
 	   algorighm/algorithm.c \
 	   algorighm/algorithm_helpers.c \

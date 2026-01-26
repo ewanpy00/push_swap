@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   swap_ops.c                                         :+:      :+:    :+:   */
+/*   swap_ops_no_write.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ivan <ivan@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ipykhtin <ipykhtin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 16:21:55 by ipykhtin          #+#    #+#             */
-/*   Updated: 2026/01/26 14:34:55 by ivan             ###   ########.fr       */
+/*   Updated: 2026/01/21 16:25:00 by ipykhtin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	sa(t_stack **stack_a)
+void	sa_no_write(t_stack **stack_a)
 {
 	t_stack	*first;
 	t_stack	*second;
@@ -24,10 +24,9 @@ void	sa(t_stack **stack_a)
 	first->next = second->next;
 	second->next = first;
 	*stack_a = second;
-	write(1, "sa\n", 3);
 }
 
-void	sb(t_stack **stack_b)
+void	sb_no_write(t_stack **stack_b)
 {
 	t_stack	*first;
 	t_stack	*second;
@@ -39,28 +38,11 @@ void	sb(t_stack **stack_b)
 	first->next = second->next;
 	second->next = first;
 	*stack_b = second;
-	write(1, "sb\n", 3);
 }
 
-void	ss(t_stack **stack_a, t_stack **stack_b)
+void	ss_no_write(t_stack **stack_a, t_stack **stack_b)
 {
-	t_stack	*first_b;
-	t_stack	*second_b;
-	t_stack	*first_a;
-	t_stack	*second_a;
-
-	if (!stack_b || !*stack_b || !(*stack_b)->next || !stack_a || !*stack_a
-		|| !(*stack_a)->next)
-		return ;
-	first_a = *stack_a;
-	second_a = first_a->next;
-	first_a->next = second_a->next;
-	second_a->next = first_a;
-	*stack_a = second_a;
-	first_b = *stack_b;
-	second_b = first_b->next;
-	first_b->next = second_b->next;
-	second_b->next = first_b;
-	*stack_b = second_b;
-	write(1, "ss\n", 3);
+	sa_no_write(stack_a);
+	sb_no_write(stack_b);
 }
+
