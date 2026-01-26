@@ -47,7 +47,7 @@ static int	process_digits(const char *str, long *result, int sign, int *i)
 	{
 		*result = *result * 10 + (str[*i] - '0');
 		if ((sign == 1 && *result > INT_MAX) || (sign == -1
-				&& *result < INT_MIN))
+				&& *result > (long)INT_MAX + 1))
 			return (0);
 		(*i)++;
 	}
