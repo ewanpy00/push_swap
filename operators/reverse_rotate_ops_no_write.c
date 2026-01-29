@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reverse_rotate_ops_no_write.c                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ipykhtin <ipykhtin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ivan <ivan@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 16:22:00 by ipykhtin          #+#    #+#             */
-/*   Updated: 2026/01/21 16:24:50 by ipykhtin         ###   ########.fr       */
+/*   Updated: 2026/01/28 22:46:40 by ivan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,3 @@ void	rrr_no_write(t_stack **stack_a, t_stack **stack_b)
 	rra_no_write(stack_a);
 	rrb_no_write(stack_b);
 }
-

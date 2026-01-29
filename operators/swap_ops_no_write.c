@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   swap_ops_no_write.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ipykhtin <ipykhtin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ivan <ivan@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 16:21:55 by ipykhtin          #+#    #+#             */
-/*   Updated: 2026/01/21 16:25:00 by ipykhtin         ###   ########.fr       */
+/*   Updated: 2026/01/28 22:46:23 by ivan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,3 @@ void	ss_no_write(t_stack **stack_a, t_stack **stack_b)
 	sa_no_write(stack_a);
 	sb_no_write(stack_b);
 }
-

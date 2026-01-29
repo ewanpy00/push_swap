@@ -6,7 +6,7 @@
 /*   By: ivan <ivan@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 16:21:28 by ipykhtin          #+#    #+#             */
-/*   Updated: 2026/01/26 11:57:47 by ivan             ###   ########.fr       */
+/*   Updated: 2026/01/28 22:45:51 by ivan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,14 +49,16 @@ static void	push_min_to_b(t_stack **a, t_stack **b, int target_index)
 	pb(a, b);
 }
 
-static void	sort_five(t_stack **a, t_stack **b)
+static void	sort_four_five(t_stack **a, t_stack **b, int size)
 {
 	set_indexes(a);
 	push_min_to_b(a, b, 0);
-	push_min_to_b(a, b, 1);
+	if (size == 5)
+		push_min_to_b(a, b, 1);
 	sort_three(a);
 	pa(a, b);
-	pa(a, b);
+	if (size == 5)
+		pa(a, b);
 }
 
 static int	process_stack(t_stack **a, t_stack **b)
@@ -68,16 +70,16 @@ static int	process_stack(t_stack **a, t_stack **b)
 	size = stack_size(*a);
 	if (is_sorted(*a) || size <= 1)
 		return (free_stack(a), 1);
-	if (size == 2 && (*a)->value > (*a)->next->value)
-		sa(a);
-	if (size == 3 || size == 5)
+	if (size == 2)
 	{
-		if (size == 3)
-			sort_three(a);
-		else
-			sort_five(a, b);
+		if ((*a)->value > (*a)->next->value)
+			sa(a);
 		return (free_stack(a), 1);
 	}
+	if (size == 3)
+		return (sort_three(a), free_stack(a), 1);
+	if (size == 4 || size == 5)
+		return (sort_four_five(a, b, size), free_stack(a), 1);
 	setup(a, size, &chunk);
 	push_to_b(a, b, &chunk);
 	push_to_a(a, b);
@@ -100,4 +102,3 @@ int	main(int ac, char **av)
 	free_stack(&b);
 	return (0);
 }
-

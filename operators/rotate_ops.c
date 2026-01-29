@@ -48,27 +48,9 @@ void	rb(t_stack **stack_b)
 
 void	rr(t_stack **stack_a, t_stack **stack_b)
 {
-	t_stack	*first_a;
-	t_stack	*last_a;
-	t_stack	*first_b;
-	t_stack	*last_b;
-
-	if (!stack_a || !*stack_a || !(*stack_a)->next || !stack_b || !*stack_b
-		|| !(*stack_b)->next)
+	if (!stack_a || !*stack_a || !(*stack_a)->next
+		|| !stack_b || !*stack_b || !(*stack_b)->next)
 		return ;
-	first_a = *stack_a;
-	*stack_a = first_a->next;
-	last_a = *stack_a;
-	while (last_a->next)
-		last_a = last_a->next;
-	last_a->next = first_a;
-	first_a->next = NULL;
-	first_b = *stack_b;
-	*stack_b = first_b->next;
-	last_b = *stack_b;
-	while (last_b->next)
-		last_b = last_b->next;
-	last_b->next = first_b;
-	first_b->next = NULL;
+	rr_no_write(stack_a, stack_b);
 	write(1, "rr\n", 3);
 }

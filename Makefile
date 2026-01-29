@@ -58,7 +58,7 @@ $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) $(INCLUDES) $(OBJS) -o $(NAME)
 	@rm -f $(OBJS)
 
-checker: $(CHECKER_OBJS)
+bonus: $(CHECKER_OBJS)
 	$(CC) $(CFLAGS) $(INCLUDES) $(CHECKER_OBJS) -o $(CHECKER)
 	@rm -f $(CHECKER_OBJS)
 
